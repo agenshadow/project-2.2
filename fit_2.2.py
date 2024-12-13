@@ -1,5 +1,3 @@
-from cProfile import label
-
 import numpy as np
 import pandas as pd
 from scipy.optimize import curve_fit
@@ -57,17 +55,16 @@ for i,value in enumerate(Nlijst):
     residuals.append(overig)
 
 
-
-
-
+print(f"afwijking van litratuur is: {round((1 - n/1.49)*100,2)}%")
 
 
 fig,ax = plt.subplots(2,1)
 
-ax[0].scatter(radialenlijst, df["Ngem"], label="metingen")
-ax[0].errorbar(radialenlijst, df["Ngem"],yerr=df["stdv"],capsize=4)
+ax[0].scatter(radialenlijst, df["Ngem"], label="meetdata")
+ax[0].errorbar(radialenlijst, df["Ngem"],yerr=df["stdv"],capsize=4, ls="none")
 
-ax[0].plot(df["radialen"], model(df["radialen"], n), label="model")
+ax[0].plot(df["radialen"], model(df["radialen"], n), label="fitting op basis van meetdata",c="coral")
+ax[0].plot(df["radialen"], model(df["radialen"], 1.49), label="fitting op basis van literatuur waarde", ls="--",c="gray")
 
 ax[0].set_xlabel("hoek in rad")
 ax[0].set_ylabel("aantal fringes")
