@@ -8,13 +8,13 @@ import matplotlib.pyplot as plt
 
 
 
-file: str = "data/metingen 2.csv"
+file: str = "data/Nul_meting_onderzoek2_19.5graden.csv"
 
 residuals: list[float] = []
 
-df = pd.read_csv(file, names=["hoek", "N1", "N2", "N3"])
-df["Ngem"] = (df["N1"] + df["N2"] + df["N3"])/3
-df["stdv"] = (((df["N1"] - df["Ngem"])**2 + (df["N2"] - df["Ngem"])**2 + (df["N3"] - df["Ngem"])**2) / 2)**(1/2)
+df = pd.read_csv(file, names=["hoek", "N1", "N2", "N3", "N4"])
+df["Ngem"] = (df["N1"] + df["N2"] + df["N3"]+df["N4"])/4
+df["stdv"] = (((df["N1"] - df["Ngem"])**2 + (df["N2"] - df["Ngem"])**2 + (df["N3"] - df["Ngem"])**2 + (df["N4"] - df["Ngem"])**2) / 3)**(1/2)
 
 
 Nlijst = df["Ngem"]
@@ -55,7 +55,7 @@ for i,value in enumerate(Nlijst):
     residuals.append(overig)
 
 
-print(f"afwijking van litratuur is: {round((1 - n/1.49)*100,2)}%")
+print(f"afwijking van litratuur is: {round((1 - n/1.33)*100,2)}%")
 
 
 fig,ax = plt.subplots(2,1)
@@ -64,7 +64,7 @@ ax[0].scatter(radialenlijst, df["Ngem"], label="meetdata")
 ax[0].errorbar(radialenlijst, df["Ngem"],yerr=df["stdv"],capsize=4, ls="none")
 
 ax[0].plot(df["radialen"], model(df["radialen"], n), label="fitting op basis van meetdata",c="coral")
-ax[0].plot(df["radialen"], model(df["radialen"], 1.49), label="fitting op basis van literatuur waarde", ls="--",c="gray")
+ax[0].plot(df["radialen"], model(df["radialen"], 1.33), label="fitting op basis van literatuur waarde", ls="--",c="gray")
 
 ax[0].set_xlabel("hoek in rad")
 ax[0].set_ylabel("aantal fringes")
